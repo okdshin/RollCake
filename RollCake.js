@@ -56,14 +56,15 @@ var RollCake = {};//name space
             });
         };
         
-		con.loginUser = function(uname, pass){
+		con.loginUser = function(uname, pass, context_name){
             con.sendCommand({
                 command:'loginUser', 
                 username:uname, 
                 password:pass
             });
 			con.sendCommand({
-				command:'loginContext'	
+				command:'loginContext',
+				name:context_name
 			});
         };
        

@@ -19,8 +19,8 @@
 				}
 			}
 			else if (cmd.command === 'info'){
-				if(cmd.cause === 'logintUser'){
-					//$('#login_create').hide();
+				if(cmd.cause === 'loginUser'){
+					$('#login_create').hide();
 					$('#handlename').text($('#username').val());
 				}
 			}
@@ -45,7 +45,7 @@
         });
         
 		$('#login_button').click(function(){
-			con.loginUser($('#username').val(), $('#password').val());
+			con.loginUser($('#username').val(), $('#password').val(), 'pw');
 			$('#message_text').val("");
         });
 		
