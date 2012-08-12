@@ -11,7 +11,7 @@
 			$('#debug_log').prepend('<div class = "msg">'+raw_cmd_str+'</div>');
 
 			if (cmd.command === 'appendValue'){
-				$('#result').prepend('<div class = "msg">'+cmd.value.username+":"+cmd.value.message+'</div>');
+				$('#result').prepend('<div class = "msg">'+cmd.value.handlename+":"+cmd.value.message+'</div>');
 			}
 			else if (cmd.command === 'caution'){
 				if(cmd.cause === 'logintUser'){
@@ -41,9 +41,10 @@
         });
 
 		var send_message = function(){
-			/*
-			if ($('#message_text'.is(':empty')))
+			/*	
+			if (!$.trim($('#message_text'.val())))
 			{
+				$('#debug_log').prepend('message is none.');
 				return;	
 			}
 			else
@@ -52,7 +53,7 @@
 				cmd = {
 					command:'appendValue',
 					value:{
-						username:$('#handlename').val(),
+						handlename:$('#handlename').val(),
 						message:$('#message_text').val()
 					}
 				}
