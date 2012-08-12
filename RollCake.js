@@ -17,7 +17,7 @@ var RollCake = {};//name space
 				onmessage(event.data, message);
             };
             that.websock.onopen = function(event){
-				con.sendCommand({command:'loginContext'});
+				//con.sendCommand({command:'loginContext'});
                 onopen(event);
             };            
             that.websock.onclose = function(event){
@@ -47,18 +47,17 @@ var RollCake = {};//name space
                 username:uname, 
                 password:pass
             });
+			con.sendCommand({
+				command:'loginContext'	
+			});
         };
-        
-        con.loginDocument = function(document_id){
-            con.sendCommand({
-                command:'loginDocument', 
-                document_id:document_id
-            });
-        };
-        
-        con.loginDocumentListDocument = function(){
-            con.sendCommand({command:'loginDocumentListDocument'});
-        };
+       
+	   	con.addPermission = function(uname){
+			con.sendCommand({
+				command:'addPermission',
+				username:uname
+			});
+		}
 
         con.close = function(){
             con.sendCommand({command:'close'});
