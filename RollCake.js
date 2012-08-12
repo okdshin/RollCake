@@ -17,7 +17,6 @@ var RollCake = {};//name space
 				onmessage(event.data, message);
             };
             that.websock.onopen = function(event){
-                con.protocol();
 				con.sendCommand({command:'loginContext'});
                 onopen(event);
             };            
@@ -34,11 +33,15 @@ var RollCake = {};//name space
             that.websock.send(dumped);
         };
         
-        con.protocol = function(){
-            con.sendCommand({command:'protocol',protocol:'RCP-ALPHA',client:'RollCakeClient'});
+        con.createUser = function(uname, pass){
+            con.sendCommand({
+                command:'createUser', 
+                username:uname, 
+                password:pass
+            });
         };
         
-        con.loginUser = function(uname, pass){
+		con.loginUser = function(uname, pass){
             con.sendCommand({
                 command:'loginUser', 
                 username:uname, 

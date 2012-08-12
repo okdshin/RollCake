@@ -11,7 +11,7 @@
 			$('#debug_log').prepend('<div class = "msg">'+raw_cmd_str+'</div>');
 
 			if (cmd.command === 'appendValue'){
-				$('#result').prepend('<div class = "msg">'+cmd.value+'</div>');
+				$('#result').prepend('<div class = "msg">'+cmd.value.username+":"+cmd.value.message+'</div>');
 			}
 			else if (cmd.command === 'caution'){
 				if(cmd.cause === 'logintUser'){
@@ -19,37 +19,53 @@
 				}
 			}
 			else if (cmd.command === 'info'){
-				$('#login').hide();
+				if(cmd.cause === 'logintUser'){
+					$('#login_create').hide();
+				}
 			}
 
 		}
-		var host_address = "192.168.11.27"
+		//var host_address = "192.168.11.27"
+		var host_address = "www.tuna-cat.com"
         con.connectToServer(host_address,4001,Pass,Pass,onReceive,Pass);
        
-		$('#command').keyup(function(e){
-			if (e.keyCode === 13){
+
+        $('#createUser_button').click(function(){
+			con.createUser($('#username').val(), $('#password').val());
+			$('#message_text').val("");
+        });
+        
+		$('#login_button').click(function(){
+			con.loginUser($('#username').val(), $('#password').val());
+			$('#message_text').val("");
+        });
+
+		var send_message = function(){
+			if ($('#message_text'.is(':empty')))
+			{
+				return;	
+			}
+			else
+			{
 				cmd = {
 					command:'appendValue',
-					value:$('#command').val()
+					value:{
+						username:$('#handlename').val(),
+						message:$('#message_text').val()
+					}
 				}
 				con.sendCommand(cmd);
-				$('#command').val("");
+				$('#message_text').val("");
+			}
+        }
+
+        $('#send_button').click(send_message);
+		
+		$('#message_text').keyup(function(e){
+			if (e.keyCode === 13){
+				send_message();
 			}
 		})
-
-        $('#login_command').click(function(){
-			con.loginUser($('#username').val(), $('#password').val());
-			$('#command').val("");
-        });
-
-        $('#send_command').click(function(){
-			cmd = {
-				command:'appendValue',
-				value:$('#command').val()
-			}
-			con.sendCommand(cmd);
-			$('#command').val("");
-        });
         
     });
 
@@ -59,16 +75,17 @@
 <title>test</title>
 </head>
 <body>
-<div id="login">
+<div id="login_and_create">
 	<table>
 		<tr><td>name:</td><td><input type="text" id="username"></td></tr><br />
-		<tr><td>pass:</td><td><input type="password" id="password"><button id="login_command">login</button></td></tr><br />
+		<tr><td>pass:</td><td><input type="password" id="password"><button id="login_button">login</button><button id="createUser_button">create</button></td></tr><br />
 	</table>
 </div>
 <div id="login_result"></div><br />
 <br />
-<textarea id="command"></textarea>
-<button id="send_command">send</button>
+<input type="text" id="handlename"><br />
+<textarea id="message_text"></textarea>
+<button id="send_button">send</button>
 <div id="result"></div><br />
 <div id="debug_log"></div>
 </body>
