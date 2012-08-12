@@ -11,7 +11,7 @@
 			$('#debug_log').prepend('<div class = "msg">'+raw_cmd_str+'</div>');
 
 			if (cmd.command === 'appendValue'){
-				$('#result').prepend('<div class = "msg">'+cmd.value.handlename+":"+cmd.value.message+'</div>');
+				$('#result').prepend('<div class = "msg">'+cmd.value.handlename+":"+cmd.value.message+':'+cmd.time+'</div>');
 			}
 			else if (cmd.command === 'caution'){
 				if(cmd.cause === 'logintUser'){
@@ -20,8 +20,17 @@
 			}
 			else if (cmd.command === 'info'){
 				if(cmd.cause === 'logintUser'){
-					$('#login_create').hide();
+					//$('#login_create').hide();
+					$('#handlename').text($('#username').val());
 				}
+			}
+			else if (cmd.command === 'addUser'){
+				$('#result').prepend('<div class = "msg">'+cmd.username+' login.'+'</div>');
+				$('#online_user_list').prepend('<span class="user_id_'+cmd.username+'">'+cmd.username+' </span>');
+			}	
+			else if (cmd.command === 'removeUser'){
+				$('#result').prepend('<div class = "msg">'+cmd.username+' logout.'+'</div>');
+				$('.user_id_'+cmd.username).remove();
 			}
 
 		}
@@ -39,6 +48,11 @@
 			con.loginUser($('#username').val(), $('#password').val());
 			$('#message_text').val("");
         });
+		
+		$('#addPermission_button').click(function(){
+			con.addPermission($('#username').val());
+			$('#message_text').val("");
+        });
 
 		var send_message = function(){
 			/*	
@@ -50,11 +64,25 @@
 			else
 			*/
 			{
+				var today = new Date();
+				var year = today.getYear();
+				if (year < 2000)
+				{
+					year = year + 1900;	
+				}
+				var month=today.getMonth()+1;
+				var date=today.getDate();
+				var hour   = today.getHours();
+				var minute = today.getMinutes();
+				var second = today.getSeconds();
+				var time_str = ''+year+'-'+month+'-'+date+' '+hour+':'+minute+':'+second;
+				
 				cmd = {
 					command:'appendValue',
 					value:{
 						handlename:$('#handlename').val(),
-						message:$('#message_text').val()
+						message:$('#message_text').val(),
+						time:time_str
 					}
 				}
 				con.sendCommand(cmd);
@@ -78,6 +106,7 @@
 <title>test</title>
 </head>
 <body>
+<div>online user: <span id="online_user_list"></span></div>
 <div id="login_and_create">
 	<table>
 		<tr><td>name:</td><td><input type="text" id="username"></td></tr><br />
