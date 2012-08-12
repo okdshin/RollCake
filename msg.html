@@ -1,0 +1,39 @@
+<html>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+<script src="json2.js"></script>
+<script type="text/javascript" src="RollCake.js"></script>
+<script type="text/javascript">
+(function($){
+    $(document).ready(function(){    
+        var con = RollCake.rcpConnection();
+        var Pass = function(){return True;};
+		con.onReceiveValue = function(value){
+			$('#result').prepend('<div class = "msg">'+value+'</div>');
+		}
+        con.connectToServer("localhost",4002,Pass,Pass,Pass,Pass);
+       
+		$('#command').keyup(function(e){
+			if (e.keyCode == 13){
+				con.sendValue($('#command').val());
+				$('#command').val("");
+			}
+		})
+        $('#send_command').click(function(){
+			con.sendValue($('#command').val());
+			$('#command').val("");
+        });
+        
+    });
+
+})(jQuery);
+</script>
+<head>
+<title>test</title>
+</head>
+<body>
+<br />
+<textarea id="command"></textarea>
+<button id="send_command">send</button>
+<div id="result"></div>
+</body>
+</html>

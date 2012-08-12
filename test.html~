@@ -1,0 +1,51 @@
+<html>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+<script src="json2.js"></script>
+<script type="text/javascript" src="RollCake.js"></script>
+<script type="text/javascript">
+(function($){
+    $(document).ready(function(){    
+        var con = RollCake.rcpConnection();
+        var Pass = function(){return True;};
+        con.connectToServer("lab.tuna-cat.com",4001,Pass,Pass,function(message){
+            $('#result').prepend(JSON.stringify(message));
+        }, Pass);
+        
+        $('#login').click(function(){
+            con.loginUser($('#name').val(), $('#password').val());    
+        });
+        
+        $('#login_root').click(function(){
+            con.loginDocumentListDocument();
+        });
+        
+        $('#login_doc').click(function(){
+            con.loginDocument(parseInt($('#document_id').val()));
+
+        });
+        
+        $('#send_command').click(function(){
+            con.sendCommand($('#command').val());
+        });
+        
+    });
+
+})(jQuery);
+</script>
+<head>
+<title>test</title>
+</head>
+<body>
+user_name<input type="text" id="name" value="black"/>
+pass<input type="password" id="password" value="box"/>
+<button id="login">login</button>
+<br />
+document_id<input type="number" id="document_id" value="0"/>
+<button id="login_doc">logindoc</button>
+<button id="login_root">logindoclistdoc</button>
+<br />
+command<textarea id="command"></textarea>
+<button id="send_command">send</button>
+<div id="result"></div>
+</body>
+</html>
