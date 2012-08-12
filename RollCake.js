@@ -3,6 +3,21 @@
 
 var RollCake = {};//name space
 (function(JSON){
+	RollCake.timeStr = function(){
+		var today = new Date();
+		var year = today.getYear();
+		if (year < 2000)
+		{
+			year = year + 1900;	
+		}
+		var month=today.getMonth()+1;
+		var date=today.getDate();
+		var hour   = today.getHours();
+		var minute = today.getMinutes();
+		var second = today.getSeconds();
+		return '('+year+'-'+month+'-'+date+' '+hour+':'+minute+':'+second+')';
+	}
+
     RollCake.rcpConnection = function(){
         var that = this;
         var con = {};//temporary object

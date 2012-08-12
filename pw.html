@@ -4,14 +4,14 @@
 <script type="text/javascript" src="RollCake.js"></script>
 <script type="text/javascript">
 (function($){
-    $(document).ready(function(){    
+    $(document).ready(function(){ 
         var con = RollCake.rcpConnection();
         var Pass = function(){return True;};
 		var onReceive = function(raw_cmd_str, cmd){
-			$('#debug_log').prepend('<div class = "msg">'+raw_cmd_str+'</div>');
+			$('#debug_log').prepend('<div class = "msg">'+RollCake.timeStr()+raw_cmd_str+'</div>');
 
 			if (cmd.command === 'appendValue'){
-				$('#result').prepend('<div class = "msg">'+cmd.value.handlename+":"+cmd.value.message+':'+cmd.time+'</div>');
+				$('#result').prepend('<div class = "msg">'+cmd.value.time+':'+cmd.value.handlename+":"+cmd.value.message+'</div>');
 			}
 			else if (cmd.command === 'caution'){
 				if(cmd.cause === 'logintUser'){
@@ -63,26 +63,13 @@
 			}
 			else
 			*/
-			{
-				var today = new Date();
-				var year = today.getYear();
-				if (year < 2000)
-				{
-					year = year + 1900;	
-				}
-				var month=today.getMonth()+1;
-				var date=today.getDate();
-				var hour   = today.getHours();
-				var minute = today.getMinutes();
-				var second = today.getSeconds();
-				var time_str = ''+year+'-'+month+'-'+date+' '+hour+':'+minute+':'+second;
-				
+			{	
 				cmd = {
 					command:'appendValue',
 					value:{
 						handlename:$('#handlename').val(),
 						message:$('#message_text').val(),
-						time:time_str
+						time:RollCake.timeStr()
 					}
 				}
 				con.sendCommand(cmd);
