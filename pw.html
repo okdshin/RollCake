@@ -1,17 +1,27 @@
 <html>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
 <script src="json2.js"></script>
+<script type="text/javascript" src="jquery.autolink.js"></script>
 <script type="text/javascript" src="RollCake.js"></script>
 <script type="text/javascript">
 (function($){
-    $(document).ready(function(){ 
+	$(document).ready(function(){ 
+		//$('body').append('<span id="sound"></span>');
+		/*
+		var messageReceiveInnotation = function(){
+			var url = 'tm2_switch001.wav';
+			document.getElementById("#sound").innerHTML="<embed src='"+url+"' hidden=true autostart=true loop=false>";
+		}
+		*/
         var con = RollCake.rcpConnection();
         var Pass = function(){return True;};
 		var onReceive = function(raw_cmd_str, cmd){
 			$('#debug_log').prepend('<div class = "msg">'+RollCake.timeStr()+raw_cmd_str+'</div>');
 
 			if (cmd.command === 'appendValue'){
+				//messageReceiveInnotation();
 				$('#result').prepend('<div class = "msg">'+cmd.value.time+':'+cmd.value.handlename+":"+cmd.value.message+'</div>');
+				$('#result').autolink();
 			}
 			else if (cmd.command === 'caution'){
 				if(cmd.cause === 'logintUser'){
@@ -20,7 +30,7 @@
 			}
 			else if (cmd.command === 'info'){
 				if(cmd.cause === 'loginUser'){
-					$('#login_create').hide();
+					//$('#login_create').hide();
 					$('#handlename').text($('#username').val());
 				}
 			}
@@ -77,11 +87,38 @@
 			}
         }
 
-        $('#send_button').click(send_message);
+        $('#send_button').click(function(){
+			/*	
+			if (!$.trim($('#message_text'.val())))
+			{
+				$('#debug_log').prepend('message is none.');
+				return;	
+			}
+			else
+			*/
+			{	
+				cmd = {
+					command:'appendValue',
+					value:{
+						handlename:$('#handlename').val(),
+						message:$('#message_text').val(),
+						time:RollCake.timeStr()
+					}
+				}
+				con.sendCommand(cmd);
+				$('#message_text').val("");
+			}
+        })
 		
 		$('#message_text').keyup(function(e){
-			if (e.keyCode === 13){
-				send_message();
+			if (e.keyCode === 13 && e.shiftKey){ // Shift + Enter
+				$('#send_button').click();
+			}
+		})
+		
+		$('#password').keyup(function(e){
+			if (e.keyCode === 13){ // Enter
+				$('#login_button').click();
 			}
 		})
         
@@ -100,7 +137,8 @@
 		<tr><td>pass:</td><td><input type="password" id="password">
 			<button id="login_button">login</button>
 			<button id="createUser_button">create</button>
-			<button id="addPermission_button">add permission<br />
+			<!--<button id="addPermission_button">add permission</button>-->
+			<br />
 		</td></tr>
 	</table>
 </div>
@@ -108,7 +146,7 @@
 <br />
 <input type="text" id="handlename"><br />
 <textarea id="message_text" width=></textarea>
-<button id="send_button">send</button>
+<button id="send_button">send(shift+enter)</button>
 <div id="result"></div><br />
 <div id="debug_log"></div>
 </body>
