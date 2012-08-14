@@ -18,12 +18,22 @@ var RollCake = {};//name space
 		return '('+year+'-'+month+'-'+date+' '+hour+':'+minute+':'+second+')';
 	}
 
+	RollCake.htmlEscape = function(raw_str){
+		return raw_str
+			.replace('&', '&amp')
+			.replace('<', '&lt;')
+			.replace('/', '&#47;')
+			.replace('>', '&gt;')
+			.replace('"', '&quot');
+	}
+
     RollCake.rcpConnection = function(){
         var that = this;
         var con = {};//temporary object
 
         con.connectToServer = function(server_name, port, onopen, onclose, onmessage, onerror){
             that.websock = new WebSocket('ws://'+server_name+':'+port+'/rcp');
+
             that.websock.onmessage = function(event){
                 var message = JSON.parse(event.data);
 				if (message.command == 'sendValue'){
@@ -32,7 +42,6 @@ var RollCake = {};//name space
 				onmessage(event.data, message);
             };
             that.websock.onopen = function(event){
-				//con.sendCommand({command:'loginContext'});
                 onopen(event);
             };            
             that.websock.onclose = function(event){
