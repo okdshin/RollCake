@@ -5,24 +5,20 @@
 <script type="text/javascript" src="RollCake.js"></script>
 <script type="text/javascript">
 (function($){
-	//$(document).ready(function(){ 
-	$().ready(function(){ 
-		//$('body').append('<span id="sound"></span>');
-		/*
-		var messageReceiveInnotation = function(){
-			var url = 'tm2_switch001.wav';
-			document.getElementById("#sound").innerHTML="<embed src='"+url+"' hidden=true autostart=true loop=false>";
-		}
-		*/
+	$(document).ready(function(){ 
+		var receive_sound = new Audio('tm2_switch001.wav');
         var con = RollCake.rcpConnection();
         var Pass = function(){return True;};
 		var onReceive = function(raw_cmd_str, cmd){
 			$('#debug_log').prepend('<div class = "msg">'+RollCake.timeStr()+RollCake.htmlEscape(raw_cmd_str)+'</div>');
 
 			if (cmd.command === 'appendValue'){
-				//messageReceiveInnotation();
+				if($('#sound').is(':checked')){
+					receive_sound.play();
+				}
 				$('#result').prepend('<div class = "msg">'+cmd.value.time+':'+RollCake.htmlEscape(cmd.value.handlename)+":"+RollCake.htmlEscape(cmd.value.message)+'</div>');
 				$('#result').autolink();
+				//window.webkitNotifications.createNotification("test", "notify", "hello");
 			}
 			else if (cmd.command === 'caution'){
 				if(cmd.cause === 'logintUser'){
@@ -74,29 +70,6 @@
 		$(window).bind("beforeunload", function(){
 			con.close();	
 		});
-
-		var send_message = function(){
-			/*	
-			if (!$.trim($('#message_text'.val())))
-			{
-				$('#debug_log').prepend('message is none.');
-				return;	
-			}
-			else
-			*/
-			{	
-				cmd = {
-					command:'appendValue',
-					value:{
-						handlename:$('#handlename').val(),
-						message:$('#message_text').val(),
-						time:RollCake.timeStr()
-					}
-				}
-				con.sendCommand(cmd);
-				$('#message_text').val("");
-			}
-        }
 
         $('#send_button').click(function(){
 			/*	
@@ -154,6 +127,7 @@
 	</table>
 </div>
 <div id="login_result"></div><br />
+<input id="sound" type="checkbox">sound on<br />
 <br />
 <input type="text" id="handlename"><br />
 <textarea id="message_text" width=></textarea>
