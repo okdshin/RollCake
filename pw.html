@@ -45,11 +45,12 @@
 		var onError = function(e){
 			$('#debug_log').prepend('<div class = "msg">'+RollCake.timeStr()+'error!'+'</div>');
         	con.connectToServer(host_address,4001,Pass,onError,onReceive,Pass);
+        	//con.connectToServer(host_address,4002,Pass,onError,onReceive,Pass);
 		}
 
 		//var host_address = "192.168.11.27"
 		var host_address = "www.tuna-cat.com"
-        con.connectToServer(host_address,4002,Pass,onError,onReceive,Pass);
+        con.connectToServer(host_address,4001,Pass,onError,onReceive,Pass);
 		//$('#debug_log').prepend('<div class = "msg">'+con+'error!'+'</div>');
 
         $('#createUser_button').click(function(){
