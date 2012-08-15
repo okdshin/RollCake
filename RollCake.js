@@ -32,7 +32,8 @@ var RollCake = {};//name space
         var con = {};//temporary object
 
         con.connectToServer = function(server_name, port, onopen, onclose, onmessage, onerror){
-            that.websock = new WebSocket('ws://'+server_name+':'+port+'/rcp');
+            //that.websock = new WebSocket('ws://'+server_name+':'+port+'/rcp');
+            that.websock = new WebSocket('wss://'+server_name+':'+port+'/rcp');
 
             that.websock.onmessage = function(event){
                 var message = JSON.parse(event.data);
