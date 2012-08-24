@@ -2,7 +2,7 @@
 	$(document).ready(function(){ 
 		var receive_sound = new Audio('tm2_switch001.wav');
         var con = RollCake.rcpConnection();
-        var Pass = function(){return True;};
+        var Pass = function(){return true;};
 		var onReceive = function(raw_cmd_str, cmd){
 			$('#debug_log').prepend('<div class = "msg">'+RollCake.timeStr()+RollCake.htmlEscape(raw_cmd_str)+'</div>');
 
