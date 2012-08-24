@@ -20,11 +20,11 @@ var RollCake = {};//name space
 
 	RollCake.htmlEscape = function(raw_str){
 		return raw_str
-			.replace('&', '&amp')
+			.replace('&', '&amp;')
 			.replace('<', '&lt;')
 			.replace('/', '&#47;')
 			.replace('>', '&gt;')
-			.replace('"', '&quot');
+			.replace('"', '&quot;');
 	}
 
     RollCake.rcpConnection = function(){
