@@ -15,12 +15,12 @@
 				//window.webkitNotifications.createNotification("test", "notify", "hello");
 			}
 			else if (cmd.command === 'caution'){
-				if(cmd.cause === 'logintUser'){
-					$('#login_result').val() = 'failure.';
+				if(cmd.cause.command === 'loginUser'){
+					$('#login_result').text('failure.');
 				}
 			}
 			else if (cmd.command === 'info'){
-				if(cmd.cause === 'loginUser'){
+				if(cmd.cause.command === 'loginUser'){
 					//$('#login_create').hide();
 					$('#handlename').text($('#username').val());
 				}
