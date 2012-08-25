@@ -66,16 +66,8 @@
 			con.close();	
 		});
 
-        $('#send_button').click(function(){
-			/*	
-			if (!$.trim($('#message_text'.val())))
-			{
-				$('#debug_log').prepend('message is none.');
-				return;	
-			}
-			else
-			*/
-			{	
+		$('#message_text').keyup(function(e){
+			if (e.keyCode === 13 && e.shiftKey){ // Shift + Enter
 				cmd = {
 					command:'appendValue',
 					value:{
@@ -86,12 +78,6 @@
 				}
 				con.sendCommand(cmd);
 				$('#message_text').val("");
-			}
-        })
-		
-		$('#message_text').keyup(function(e){
-			if (e.keyCode === 13 && e.shiftKey){ // Shift + Enter
-				$('#send_button').click();
 			}
 		})
 		
