@@ -33,12 +33,6 @@ var RollCake = {};//name space
 
         con.connectToServer = function(server_name, port, onopen, onclose, onmessage, onerror){
             that.websock = new WebSocket('ws://'+server_name+':'+port+'/rcp');
-            con.sendCommand({
-                command:'open', 
-                protocol:'alpha1', 
-                client:'RollCake'
-            });
-
             that.websock.onmessage = function(event){
                 var message = JSON.parse(event.data);
 				if (message.command == 'sendValue'){
@@ -47,6 +41,11 @@ var RollCake = {};//name space
 				onmessage(event.data, message);
             };
             that.websock.onopen = function(event){
+				con.sendCommand({
+					command:'open', 
+					protocol:'alpha1', 
+					client:'RollCake'
+				});
                 onopen(event);
             };            
             that.websock.onclose = function(event){

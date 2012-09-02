@@ -4,7 +4,7 @@
         var con = RollCake.rcpConnection();
         var Pass = function(){return true;};
 		var onReceive = function(raw_cmd_str, cmd){
-			$('#debug_log').prepend('<div class = "msg">'+RollCake.timeStr()+RollCake.htmlEscape(raw_cmd_str)+'</div>');
+			//$('#debug_log').prepend('<div class = "msg">'+RollCake.timeStr()+RollCake.htmlEscape(raw_cmd_str)+'</div>');
 
 			if (cmd.command === 'appendValue'){
 				if($('#sound').is(':checked')){
