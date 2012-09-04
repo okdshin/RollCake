@@ -2,9 +2,9 @@
 	$(document).ready(function(){ 
 		var receive_sound = new Audio('tm2_switch001.wav');
         var con = RollCake.rcpConnection();
-        var Pass = function(){return True;};
+        var Pass = function(){return true;};
 		var onReceive = function(raw_cmd_str, cmd){
-			$('#debug_log').prepend('<div class = "msg">'+RollCake.timeStr()+RollCake.htmlEscape(raw_cmd_str)+'</div>');
+			//$('#debug_log').prepend('<div class = "msg">'+RollCake.timeStr()+RollCake.htmlEscape(raw_cmd_str)+'</div>');
 
 			if (cmd.command === 'appendValue'){
 				if($('#sound').is(':checked')){
@@ -15,12 +15,12 @@
 				//window.webkitNotifications.createNotification("test", "notify", "hello");
 			}
 			else if (cmd.command === 'caution'){
-				if(cmd.cause === 'logintUser'){
-					$('#login_result').val() = 'failure.';
+				if(cmd.cause.command === 'loginUser'){
+					$('#login_result').text('failure.');
 				}
 			}
 			else if (cmd.command === 'info'){
-				if(cmd.cause === 'loginUser'){
+				if(cmd.cause.command === 'loginUser'){
 					//$('#login_create').hide();
 					$('#handlename').text($('#username').val());
 				}
@@ -66,16 +66,8 @@
 			con.close();	
 		});
 
-        $('#send_button').click(function(){
-			/*	
-			if (!$.trim($('#message_text'.val())))
-			{
-				$('#debug_log').prepend('message is none.');
-				return;	
-			}
-			else
-			*/
-			{	
+		$('#message_text').keyup(function(e){
+			if (e.keyCode === 13 && e.shiftKey){ // Shift + Enter
 				cmd = {
 					command:'appendValue',
 					value:{
@@ -86,12 +78,6 @@
 				}
 				con.sendCommand(cmd);
 				$('#message_text').val("");
-			}
-        })
-		
-		$('#message_text').keyup(function(e){
-			if (e.keyCode === 13 && e.shiftKey){ // Shift + Enter
-				$('#send_button').click();
 			}
 		})
 		
