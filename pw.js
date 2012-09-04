@@ -39,6 +39,7 @@
 				$('#debug_log').prepend('<div>info:'+cmd.info+'</div>');
 				if(cmd.cause.command === 'loginUser'){
 					$('#handlename').text($('#username').val());
+					$('thread_list').html("");
 				}
 			}
 			else if (cmd.command === 'addUser'){
