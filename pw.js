@@ -79,6 +79,12 @@
 			$('#message_text').focus();
         });
 		
+		$('#logout_button').click(function(){
+			con.logoutContext();
+			$('#result').html("");
+			$('#thread_list').html("");
+        });
+		
 		$('#create_thread_button').click(function(){
 			con.addContext($('#new_thread_name').val());
 			con.loginContext($('#new_thread_name').val());
