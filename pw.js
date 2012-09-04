@@ -56,10 +56,9 @@
 
 		var onError = function(e){
 			setTimeout(function(){
-					$('#debug_log').prepend(
-						'<div class = \"msg\">'+RollCake.timeStr()+'error!'+'</div>');
-					}, 3000);
-        	con.connectToServer(host_address, 4001, 'pw', Pass, onError, onReceive, Pass);
+				$('#debug_log').prepend(
+					'<div class = \"msg\">'+RollCake.timeStr()+'error!'+'</div>');
+        		con.connectToServer(host_address, 4001, 'pw', Pass, onError, onReceive, Pass);}, 3000);
 		}
 
 		//var host_address = "192.168.11.27"
