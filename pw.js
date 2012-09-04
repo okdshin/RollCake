@@ -4,15 +4,30 @@
         var con = RollCake.rcpConnection();
         var Pass = function(){return true;};
 		var onReceive = function(raw_cmd_str, cmd){
-			//$('#debug_log').prepend('<div class = "msg">'+RollCake.timeStr()+RollCake.htmlEscape(raw_cmd_str)+'</div>');
-
-			if (cmd.command === 'appendValue'){
+			$('#current_context').html(RollCake.htmlEscape(con.getCurrentContextName()));
+			if(cmd.command === 'addContext'){
+				$('#thread_list').prepend(
+					'<button class="thread" name='+RollCake.htmlEscape(cmd.name)+'>'
+						+RollCake.htmlEscape(cmd.name)
+					+'</button>');
+				$('.thread').click(function(){
+					$('#debug_log').html("loginuser");
+					$('#result').html("");
+					con.loginContext($(this).attr('name'));
+				});
+			}
+			else if (cmd.command === 'appendValue'){
 				if($('#sound').is(':checked')){
 					receive_sound.play();
 				}
-				$('#result').prepend('<div class = "msg">'+cmd.value.time+':'+RollCake.htmlEscape(cmd.value.handlename)+":"+RollCake.htmlEscape(cmd.value.message)+'</div>');
+				$('#result').prepend(
+					'<div class="msg">'
+					+'<span class="time">'+cmd.value.time+'</span>'+':'
+					+'<span class="handlename">'
+						+RollCake.htmlEscape(cmd.value.handlename)+'</span>'+':'
+					+'<span class="text">'+RollCake.htmlEscape(cmd.value.message)+'</span>'
+					+'</div>');
 				$('#result').autolink();
-				//window.webkitNotifications.createNotification("test", "notify", "hello");
 			}
 			else if (cmd.command === 'caution'){
 				if(cmd.cause.command === 'loginUser'){
@@ -21,31 +36,30 @@
 			}
 			else if (cmd.command === 'info'){
 				if(cmd.cause.command === 'loginUser'){
-					//$('#login_create').hide();
 					$('#handlename').text($('#username').val());
 				}
 			}
 			else if (cmd.command === 'addUser'){
-				$('#result').prepend('<div class = "msg">'+cmd.username+' login.'+'</div>');
-				$('#online_user_list').prepend('<span class="user_id_'+cmd.username+'">'+cmd.username+' </span>');
+				$('#result').prepend(
+					'<div class = "msg">'+cmd.username+' login.'+'</div>');
+				$('#online_user_list').prepend(
+					'<span class="user_id_'+cmd.username+'">'+cmd.username+' </span>');
 			}	
 			else if (cmd.command === 'removeUser'){
-				$('#result').prepend('<div class = "msg">'+cmd.username+' logout.'+'</div>');
+				$('#result').prepend(
+					'<div class = "msg">'+cmd.username+' logout.'+'</div>');
 				$('.user_id_'+cmd.username).remove();
 			}
-
 		}
 
 		var onError = function(e){
 			$('#debug_log').prepend('<div class = "msg">'+RollCake.timeStr()+'error!'+'</div>');
-        	con.connectToServer(host_address,4001,Pass,onError,onReceive,Pass);
-        	//con.connectToServer(host_address,4002,Pass,onError,onReceive,Pass);
+        	con.connectToServer(host_address, 4001, 'pw', Pass, onError, onReceive, Pass);
 		}
 
 		//var host_address = "192.168.11.27"
 		var host_address = "www.tuna-cat.com"
-        con.connectToServer(host_address,4001,Pass,onError,onReceive,Pass);
-		//$('#debug_log').prepend('<div class = "msg">'+con+'error!'+'</div>');
+        con.connectToServer(host_address, 4001, 'pw', Pass,onError, onReceive, Pass);
 
         $('#createUser_button').click(function(){
 			con.createUser($('#username').val(), $('#password').val());
@@ -53,13 +67,19 @@
         });
         
 		$('#login_button').click(function(){
-			con.loginUser($('#username').val(), $('#password').val(), 'pw');
+			con.loginUser($('#username').val(), $('#password').val());
+			//con.loginContet('pw');
 			$('#message_text').val("");
+			$('#handlename').val($('#username').val());
+			$('#message_text').focus();
         });
 		
-		$('#addPermission_button').click(function(){
-			con.addPermission($('#username').val());
-			$('#message_text').val("");
+		$('#create_thread_button').click(function(){
+			con.addContext($('#new_thread_name').val());
+			con.loginContext($('#new_thread_name').val());
+			con.setValue(null, []);
+			$('#new_thread_name').val("");
+			$('#result').html("");
 		});
 
 		$(window).bind("beforeunload", function(){
@@ -86,6 +106,7 @@
 				$('#login_button').click();
 			}
 		})
+		
         
     });
 

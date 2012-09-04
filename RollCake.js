@@ -30,8 +30,17 @@ var RollCake = {};//name space
     RollCake.rcpConnection = function(){
         var that = this;
         var con = {};//temporary object
+		var current_context_name = 'root';
 
-        con.connectToServer = function(server_name, port, onopen, onclose, onmessage, onerror){
+	   	con.loginContext = function(cname){
+			con.sendCommand({
+				command:'loginContext',
+				name:cname
+			});
+			current_context_name = cname;	
+		}
+
+        con.connectToServer = function(server_name, port, initial_context_name, onopen, onclose, onmessage, onerror){
             that.websock = new WebSocket('ws://'+server_name+':'+port+'/rcp');
             that.websock.onmessage = function(event){
                 var message = JSON.parse(event.data);
@@ -46,7 +55,9 @@ var RollCake = {};//name space
 					protocol:'alpha1', 
 					client:'RollCake'
 				});
-                onopen(event);
+				
+				con.loginContext(initial_context_name);
+				onopen(event);
             };            
             that.websock.onclose = function(event){
                 onclose(event);
@@ -54,6 +65,7 @@ var RollCake = {};//name space
             that.websock.onerror = function(event){
                 onerror(event);
             };
+
         };
 
         con.sendCommand = function(command){
@@ -68,24 +80,40 @@ var RollCake = {};//name space
                 password:pass
             });
         };
-        
+       
 		con.loginUser = function(uname, pass, context_name){
             con.sendCommand({
                 command:'loginUser', 
                 username:uname, 
                 password:pass
             });
-			con.sendCommand({
-				command:'loginContext',
-				name:context_name
-			});
         };
        
+
 	   	con.addPermission = function(uname){
 			con.sendCommand({
 				command:'addPermission',
 				username:uname
 			});
+		}
+
+		con.addContext = function(cname){
+			con.sendCommand({
+				command:'addContext',
+				name:cname
+			});	
+		}
+
+		con.setValue = function(cpath, cvalue){
+			con.sendCommand({
+				command:'setValue',
+				path:cpath,
+				value:cvalue
+			});
+		}
+
+		con.getCurrentContextName = function(){
+			return current_context_name;
 		}
 
         con.close = function(){
