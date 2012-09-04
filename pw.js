@@ -30,11 +30,13 @@
 				$('#result').autolink();
 			}
 			else if (cmd.command === 'caution'){
+				$('#debug_log').prepend('<div>caution:'+cmd.reason+'</div>');
 				if(cmd.cause.command === 'loginUser'){
 					$('#login_result').text('failure.');
 				}
 			}
 			else if (cmd.command === 'info'){
+				$('#debug_log').prepend('<div>info:'+cmd.info+'</div>');
 				if(cmd.cause.command === 'loginUser'){
 					$('#handlename').text($('#username').val());
 				}
@@ -53,7 +55,8 @@
 		}
 
 		var onError = function(e){
-			$('#debug_log').prepend('<div class = "msg">'+RollCake.timeStr()+'error!'+'</div>');
+			setTimeout("$('#debug_log').prepend(
+				'<div class = \"msg\">'+RollCake.timeStr()+'error!'+'</div>');", 3000);
         	con.connectToServer(host_address, 4001, 'pw', Pass, onError, onReceive, Pass);
 		}
 
