@@ -31,12 +31,14 @@ var RollCake = {};//name space
         var that = this;
         var con = {};//temporary object
 		var current_context_name = 'root';
+		var before_context_name = 'root';
 
 	   	con.loginContext = function(cname){
 			con.sendCommand({
 				command:'loginContext',
 				name:cname
 			});
+			before_context_name = current_context_name;
 			current_context_name = cname;	
 		}
 
@@ -67,6 +69,11 @@ var RollCake = {};//name space
             };
 
         };
+	   	
+		con.logoutContext = function(){
+			con.sendCommand({command:'logoutContext'});
+			current_context_name = before_context_name;	
+		}
 
         con.sendCommand = function(command){
             var dumped = JSON.stringify(command);
