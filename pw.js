@@ -3,6 +3,13 @@
 		var receive_sound = new Audio('tm2_switch001.wav');
         var con = RollCake.rcpConnection();
         var Pass = function(){return true;};
+
+		var clearView = function(){
+			$('#online_user_list').html("");
+			$('#result').html("");
+			$('#thread_list').html("");
+		}
+
 		var onReceive = function(raw_cmd_str, cmd){
 			$('#current_context').html(RollCake.htmlEscape(con.getCurrentContextName()));
 			if(cmd.command === 'addContext'){
@@ -37,9 +44,14 @@
 			}
 			else if (cmd.command === 'info'){
 				$('#debug_log').prepend('<div>info:'+cmd.info+'</div>');
+				if(cmd.cause.command === 'loginContext'){
+					clearView();
+				}
+				if(cmd.cause.command === 'logoutContext'){
+					clearView();
+				}
 				if(cmd.cause.command === 'loginUser'){
 					$('#handlename').text($('#username').val());
-					$('thread_list').html("");
 				}
 			}
 			else if (cmd.command === 'addUser'){
@@ -81,8 +93,6 @@
 		
 		$('#logout_button').click(function(){
 			con.logoutContext();
-			$('#result').html("");
-			$('#thread_list').html("");
         });
 		
 		$('#create_thread_button').click(function(){
