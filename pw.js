@@ -11,7 +11,6 @@
 		}
 
 		var onReceive = function(raw_cmd_str, cmd){
-			$('#current_context').html(RollCake.htmlEscape(con.getCurrentContextName()));
 			if(cmd.command === 'addContext'){
 				$('#thread_list').prepend(
 					'<button class="thread" name='+RollCake.htmlEscape(cmd.name)+'>'

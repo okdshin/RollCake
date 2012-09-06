@@ -30,16 +30,12 @@ var RollCake = {};//name space
     RollCake.rcpConnection = function(){
         var that = this;
         var con = {};//temporary object
-		var current_context_name = 'root';
-		var before_context_name = 'root';
 
 	   	con.loginContext = function(cname){
 			con.sendCommand({
 				command:'loginContext',
 				name:cname
 			});
-			before_context_name = current_context_name;
-			current_context_name = cname;	
 		}
 
         con.connectToServer = function(server_name, port, initial_context_name, onopen, onclose, onmessage, onerror){
@@ -72,7 +68,6 @@ var RollCake = {};//name space
 	   	
 		con.logoutContext = function(){
 			con.sendCommand({command:'logoutContext'});
-			current_context_name = before_context_name;	
 		}
 
         con.sendCommand = function(command){
@@ -117,10 +112,6 @@ var RollCake = {};//name space
 				path:cpath,
 				value:cvalue
 			});
-		}
-
-		con.getCurrentContextName = function(){
-			return current_context_name;
 		}
 
         con.close = function(){
