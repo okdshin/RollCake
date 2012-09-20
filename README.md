@@ -2,8 +2,10 @@ RollCake
 ========
 RCP web client library
 
-# function list
-##namespace RollCake
+function list
+---------------
+namespace RollCake
+-----------------
 function **timeStr**
 + argument value: none  
 + return value: (*year*-*month*-*date* *hour*:*minute*:*second*)  
