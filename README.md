@@ -1,25 +1,25 @@
 RollCake
 ========
-
 RCP web client library
-
-namespace RollCake  
-function timeStr  
-argument value: none  
-return value: (year-month-date hour:minute:second)  
+  
+namespace RollCake
+---------------
+function **timeStr**  
+    argument value: none  
+    return value: (*year*-*month*-*date* *hour*:*minute*:*second*)  
   
 function htmlEscape  
-argument value: raw string  
-return value: escaped argument raw string  
+    argument value: raw string  
+    return value: escaped argument raw string  
   
 function rcpConnection  
-argument value: none  
-return value: connection object  
+    argument value: none  
+    return value: connection object  
   
 connection object  
 function loginContext  
-argument value: target context name  
-return value: none  
+    argument value: target context name  
+    return value: none  
   
 function connectToServer  
 argument value: server name,   
