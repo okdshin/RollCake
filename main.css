@@ -87,6 +87,7 @@ a{
 	color:#ee7722;
 	font-weight:bold;
 	text-decoration:none;
+	word-wrap:break-word;
 }
 /* message */
 div.time{
