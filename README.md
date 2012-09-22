@@ -42,8 +42,8 @@ function **createUser**
 + return value: none  
 
 function **loginUser**  
-+ argument value: user name, password, context name  
-+ return value: user name, password, context name  
++ argument value: user name, password
++ return value: none
   
 function **addPermission**  
 + argument value: user name  
