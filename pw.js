@@ -31,8 +31,11 @@
 					+'<div class="time">'+cmd.value.time+'</div>'
 					+'<div class="nametext">'
 					+'<div class="handlename">'
-						+RollCake.htmlEscape(cmd.value.handlename)+'</div>'
-					+'<div class="text">'+RollCake.htmlEscape(cmd.value.message)+'</div>'
+					+RollCake.htmlEscape(cmd.value.handlename)
+					+'</div>'
+					+'<div class="text">'
+					+RollCake.htmlEscape(cmd.value.message).
+						replace('\n','<br/>')+'</div>'
 					+'</div>'
 					+'</div>');
 				$('#result').autolink();
