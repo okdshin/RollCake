@@ -14,8 +14,8 @@
 <div>online user: <span id="online_user_list"></span></div>
 <div id="login_and_create">
 	<table>
-		<tr><td>name:</td><td><input type="text" id="username"></td></tr><br />
-		<tr><td>pass:</td><td><input type="password" id="password">
+		<tr><td><input type="text" id="username" placeholder="username"></td></tr><br />
+		<tr><td><input type="password" id="password" placeholder="password">
 			<button id="login_button">login</button>
 			<button id="createUser_button">create</button>
 			<br />
@@ -25,16 +25,16 @@
 <div id="login_result"></div><br />
 <input id="sound" type="checkbox">sound on<br />
 <table>
-	<tr><td>thread name:</td><td><input type="text" id="new_thread_name"></td>
+	<tr><td><input type="text" id="new_thread_name" placeholder="new thread name"></td>
 	<td><button id="create_thread_button">new thread</button></td><tr>
 	<div id="thread_list"></div><br />
 </table><br />
 <div>
 	<button id="logout_button">cd ./..</button>
-	current context: <span id="current_context"></span>
 </div>
-<input type="text" id="handlename"><br />
-<textarea id="message_text" cols=80 rows=2></textarea>
+<input type="text" id="handlename" placeholder="handlename"><br />
+<textarea id="message_text" wrap="soft" cols=80 
+	rows=2 placeholder="message"></textarea>
 <br />
 shift+enter to send
 <div id="result"></div><br />
