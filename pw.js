@@ -3,8 +3,14 @@
 		var receive_sound = new Audio('tm2_switch001.wav');
         var con = RollCake.rcpConnection();
         var Pass = function(){return true;};
+
+		var clearView = function(){
+			$('#online_user_list').html("");
+			$('#result').html("");
+			$('#thread_list').html("");
+		}
+
 		var onReceive = function(raw_cmd_str, cmd){
-			$('#current_context').html(RollCake.htmlEscape(con.getCurrentContextName()));
 			if(cmd.command === 'addContext'){
 				$('#thread_list').prepend(
 					'<button class="thread" name='+RollCake.htmlEscape(cmd.name)+'>'
@@ -22,10 +28,15 @@
 				}
 				$('#result').prepend(
 					'<div class="msg">'
-					+'<span class="time">'+cmd.value.time+'</span>'+':'
-					+'<span class="handlename">'
-						+RollCake.htmlEscape(cmd.value.handlename)+'</span>'+':'
-					+'<span class="text">'+RollCake.htmlEscape(cmd.value.message)+'</span>'
+					+'<div class="time">'+cmd.value.time+'</div>'
+					+'<div class="nametext">'
+					+'<div class="handlename">'
+					+RollCake.htmlEscape(cmd.value.handlename)
+					+'</div>'
+					+'<div class="text">'
+					+RollCake.htmlEscape(cmd.value.message).
+						replace('\n','<br/>')+'</div>'
+					+'</div>'
 					+'</div>');
 				$('#result').autolink();
 			}
@@ -37,9 +48,14 @@
 			}
 			else if (cmd.command === 'info'){
 				$('#debug_log').prepend('<div>info:'+cmd.info+'</div>');
+				if(cmd.cause.command === 'loginContext'){
+					clearView();
+				}
+				if(cmd.cause.command === 'logoutContext'){
+					clearView();
+				}
 				if(cmd.cause.command === 'loginUser'){
 					$('#handlename').text($('#username').val());
-					$('thread_list').html("");
 				}
 			}
 			else if (cmd.command === 'addUser'){
@@ -81,8 +97,6 @@
 		
 		$('#logout_button').click(function(){
 			con.logoutContext();
-			$('#result').html("");
-			$('#thread_list').html("");
         });
 		
 		$('#create_thread_button').click(function(){
