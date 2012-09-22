@@ -19,10 +19,6 @@ function **rcpConnection**
 + return value: connection object  
   
 ### connection object  
-function **loginContext**  
-+ argument value: target context name  
-+ return value: none  
-  
 function **connectToServer**  
 + argument value: server name,   
 port,   
@@ -33,8 +29,16 @@ on receive message function,
 on error occuered function  
 + returnvalue: none
   
+function **close**  
++ argument value: none  
++ return value: none  
+  
+function **loginContext**  
++ argument value: target context name  
++ return value: none  
+  
 function **sendCommand**  
-+ argument value: command json string  
++ argument value: command object 
 + return value: none  
 
 function **createUser**  
@@ -55,10 +59,6 @@ function **addContext**
   
 function **setValue**  
 + argument value: context path, value json string  
-+ return value: none  
-  
-function **close**  
-+ argument value: none  
 + return value: none  
   
 function **sendValue**  
