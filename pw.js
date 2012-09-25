@@ -40,14 +40,22 @@
 					+'</div>');
 				$('#result').autolink();
 			}
-			else if (cmd.command === 'caution'){
-				$('#debug_log').prepend('<div>caution:'+cmd.reason+'</div>');
+			///
+			//error 
+			else if (cmd.command === 'fatal'){
+				$('#debug_log').prepend('<div>caution:'+cmd.description+'</div>');
+			}
+			else if (cmd.command === 'error'){
+				$('#debug_log').prepend('<div>caution:'+cmd.description+'</div>');
 				if(cmd.cause.command === 'loginUser'){
 					$('#login_result').text('failure.');
 				}
 			}
+			else if (cmd.command === 'caution'){
+				$('#debug_log').prepend('<div>caution:'+cmd.description+'</div>');
+			}
 			else if (cmd.command === 'info'){
-				$('#debug_log').prepend('<div>info:'+cmd.info+'</div>');
+				$('#debug_log').prepend('<div>info:'+cmd.description+'</div>');
 				if(cmd.cause.command === 'loginContext'){
 					clearView();
 				}
@@ -58,6 +66,8 @@
 					$('#handlename').text($('#username').val());
 				}
 			}
+			///
+			//user
 			else if (cmd.command === 'addUser'){
 				$('#result').prepend(
 					'<div class = "msg">'+cmd.username+' login.'+'</div>');
@@ -79,7 +89,8 @@
 		}
 
 		//var host_address = "192.168.11.27"
-		var host_address = "www.tuna-cat.com"
+		//var host_address = "www.tuna-cat.com"
+		var host_address = "localhost"
         con.connectToServer(host_address, 4001, 'pw', Pass,onError, onReceive, Pass);
 
         $('#createUser_button').click(function(){
