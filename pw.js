@@ -12,14 +12,15 @@
 
 		var onReceive = function(raw_cmd_str, cmd){
 			if(cmd.command === 'addContext'){
-				$('#thread_list').prepend(
-					'<button class="thread" name='+RollCake.htmlEscape(cmd.name)+'>'
-						+RollCake.htmlEscape(cmd.name)
-					+'</button>');
-				$('.thread').click(function(){
-					$('#debug_log').html("loginuser");
-					$('#result').html("");
-					con.loginContext($(this).attr('name'));
+				var safeName=RollCake.htmlEscape(cmd.name);
+				$('#thread_list').append(
+					'<a class="thread" id='
+						+safeName
+						+'> '
+						+safeName
+						+' </a>');
+				$('.thread#'+safeName).click(function(){
+					con.loginContext($(this).attr('id'));
 				});
 			}
 			else if (cmd.command === 'appendValue'){
@@ -27,7 +28,7 @@
 					receive_sound.play();
 				}
 				$('#result').prepend(
-					'<div class="msg">'
+					'<div class="msg box">'
 					+'<div class="time">'+cmd.value.time+'</div>'
 					+'<div class="nametext">'
 					+'<div class="handlename">'
@@ -43,19 +44,23 @@
 			///
 			//error 
 			else if (cmd.command === 'fatal'){
-				$('#debug_log').prepend('<div>caution:'+cmd.description+'</div>');
+				$('#result').prepend('<div class="box error">caution:'
+						+cmd.description+'</div>');
 			}
 			else if (cmd.command === 'error'){
-				$('#debug_log').prepend('<div>caution:'+cmd.description+'</div>');
+				$('#result').prepend('<div class="box error">caution:'
+						+cmd.description+'</div>');
 				if(cmd.cause.command === 'loginUser'){
 					$('#login_result').text('failure.');
 				}
 			}
 			else if (cmd.command === 'caution'){
-				$('#debug_log').prepend('<div>caution:'+cmd.description+'</div>');
+				$('#result').prepend('<div class="box error">caution:'
+						+cmd.description+'</div>');
 			}
 			else if (cmd.command === 'info'){
-				$('#debug_log').prepend('<div>info:'+cmd.description+'</div>');
+				$('#result').prepend('<div class="box">info:'
+						+cmd.description+'</div>');
 				if(cmd.cause.command === 'loginContext'){
 					clearView();
 				}
@@ -70,27 +75,27 @@
 			//user
 			else if (cmd.command === 'addUser'){
 				$('#result').prepend(
-					'<div class = "msg">'+cmd.username+' login.'+'</div>');
+					'<div class = "msg box">'+cmd.username+' login.'+'</div>');
 				$('#online_user_list').prepend(
 					'<span class="user_id_'+cmd.username+'">'+cmd.username+' </span>');
 			}	
 			else if (cmd.command === 'removeUser'){
 				$('#result').prepend(
-					'<div class = "msg">'+cmd.username+' logout.'+'</div>');
+					'<div class = "msg box">'+cmd.username+' logout.'+'</div>');
 				$('.user_id_'+cmd.username).remove();
 			}
 		}
 
 		var onError = function(e){
 			setTimeout(function(){
-				$('#debug_log').prepend(
-					'<div class = \"msg\">'+RollCake.timeStr()+'error!'+'</div>');
+				$('#result').prepend(
+					'<div class = "error box">'+RollCake.timeStr()+'error!'+'</div>');
         		con.connectToServer(host_address, 4001, 'pw', Pass, onError, onReceive, Pass);}, 3000);
 		}
 
 		//var host_address = "192.168.11.27"
-		//var host_address = "www.tuna-cat.com"
-		var host_address = "localhost"
+		var host_address = "www.tuna-cat.com"
+		//var host_address = "localhost"
         con.connectToServer(host_address, 4001, 'pw', Pass,onError, onReceive, Pass);
 
         $('#createUser_button').click(function(){

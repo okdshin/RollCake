@@ -11,33 +11,33 @@
 </head>
 <body>
 <h1>post wave (debug ver.)</h1><br />
-<div>online user: <span id="online_user_list"></span></div>
+
 <div id="login_and_create">
-	<table>
-		<tr><td><input type="text" id="username" placeholder="username"></td></tr><br />
-		<tr><td><input type="password" id="password" placeholder="password">
-			<button id="login_button">login</button>
-			<button id="createUser_button">create</button>
-			<br />
-		</td></tr>
-	</table>
+<input type="text" id="username" placeholder="username">
+<input type="password" id="password" placeholder="password">
+<button id="login_button">login</button>
 </div>
+
 <div id="login_result"></div><br />
-<input id="sound" type="checkbox">sound on<br />
-<table>
-	<tr><td><input type="text" id="new_thread_name" placeholder="new thread name"></td>
-	<td><button id="create_thread_button">new thread</button></td><tr>
-	<div id="thread_list"></div><br />
-</table><br />
-<div>
-	<button id="logout_button">cd ./..</button>
-</div>
+<input id="sound" type="checkbox">sound on<br/><br/>
+<div class="field">thread_list:</div>
+<a id="logout_button">..</a>
+<div class="field" id="thread_list"></div>
+</br>
+
+<div>online user: <span id="online_user_list"></span></div>
+
+
+<br/>
 <input type="text" id="handlename" placeholder="handlename"><br />
 <textarea id="message_text" wrap="soft" cols=80 
-	rows=2 placeholder="message"></textarea>
+	rows=2 placeholder="message (shift+enter to send)"></textarea>
 <br />
-shift+enter to send
+<br />
+
 <div id="result"></div><br />
 <div id="debug_log"></div>
+<input type="text" id="new_thread_name" placeholder="new thread name">
+<button id="create_thread_button">new thread</button>
 </body>
 </html>

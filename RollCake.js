@@ -92,10 +92,11 @@ var RollCake = {};//name space
         };
        
 
-	   	con.addPermission = function(uname){
+	   	con.setPermission = function(uname, plist){
 			con.sendCommand({
 				command:'addPermission',
-				username:uname
+				username:uname,
+				mode:plist
 			});
 		}
 

@@ -8,16 +8,6 @@ body{
 	margin-right:auto;
 }
 
-div.error{
-	background-color:#442222;
-
-	border:solid;
-	border-color:#aa2222;
-	border-width:2px;
-
-	font-size:1.5em;
-}
-
 div.base{
 	background-color:#333333;
 }
@@ -89,6 +79,29 @@ a{
 	text-decoration:none;
 	word-wrap:break-word;
 }
+div.field{
+	display:inline;
+}
+
+div.box{
+	border-style:solid;
+	border-width:1px;
+	margin-top:2px;
+	margin-bottom:2px;
+	padding:2px;
+
+	border-color:#333333;
+}
+div.goodinfo{
+	border-color:#447744;
+}
+div.info{
+}
+div.error{
+	border-color:#442222;
+}
+
+
 /* message */
 div.time{
 	opacity:0.6;
