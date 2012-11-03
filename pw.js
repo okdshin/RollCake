@@ -77,7 +77,7 @@
 				$('#result').prepend(
 					'<div class = "msg box">'+cmd.username+' login.'+'</div>');
 				$('#online_user_list').prepend(
-					'<span class="user_name_'+cmd.username+'" id='+cmd.userId+'>'+cmd.username+' </span>');
+					'<span class="user_name_'+cmd.username+'" id='+cmd.userID+'>'+cmd.username+' </span>');
 			}	
 			else if (cmd.command === 'removeUser'){
 				$('#result').prepend(
