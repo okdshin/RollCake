@@ -77,12 +77,12 @@
 				$('#result').prepend(
 					'<div class = "msg box">'+cmd.username+' login.'+'</div>');
 				$('#online_user_list').prepend(
-					'<span class="user_name_'+cmd.username+'" id='+cmd.userID+'>'+cmd.username+' </span>');
+					'<span id=login_id_'+cmd.loginID+'>'+cmd.username+' </span>');
 			}	
 			else if (cmd.command === 'removeUser'){
 				$('#result').prepend(
 					'<div class = "msg box">'+cmd.username+' logout.'+'</div>');
-				$('.user_id_'+cmd.username).remove();
+				$('#login_id_'+cmd.loginID).remove();
 			}
 		}
 
