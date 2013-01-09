@@ -23,19 +23,25 @@
 					con.loginContext($(this).attr('id'));
 				});
 			}
-			else if (cmd.command === 'appendValue'){
+			else if (cmd.command === 'replaceValue'){
+				if (cmd.begin != -1)
+					return;
+				if (cmd.end != -1)
+					return;
 				if($('#sound').is(':checked')){
 					receive_sound.play();
 				}
 				$('#result').prepend(
 					'<div class="msg box">'
-					+'<div class="time">'+cmd.value.time+'</div>'
+					+'<div class="time">'
+					+RollCake.htmlEscape(cmd.value[0].time)
+					+'</div>'
 					+'<div class="nametext">'
 					+'<div class="handlename">'
-					+RollCake.htmlEscape(cmd.value.handlename)
+					+RollCake.htmlEscape(cmd.value[0].handlename)
 					+'</div>'
 					+'<div class="text">'
-					+RollCake.htmlEscape(cmd.value.message).
+					+RollCake.htmlEscape(cmd.value[0].message).
 						replace('\n','<br/>')+'</div>'
 					+'</div>'
 					+'</div>');
@@ -87,9 +93,9 @@
 		}
 
 		var onError = function(e){
+			$('#result').prepend(
+				'<div class = "error box">'+RollCake.timeStr()+'error!'+'</div>');
 			setTimeout(function(){
-				$('#result').prepend(
-					'<div class = "error box">'+RollCake.timeStr()+'error!'+'</div>');
         		con.connectToServer(host_address, 4001, 'pw', Pass, onError, onReceive, Pass);}, 3000);
 		}
 
@@ -127,18 +133,21 @@
 			con.close();	
 		});
 
-		$('#message_text').keyup(function(e){
+		$('#message_text').keydown(function(e){
 			if (e.keyCode === 13 && e.shiftKey){ // Shift + Enter
 				cmd = {
-					command:'appendValue',
-					value:{
+					command:'replaceValue',
+					begin:-1,
+					end:-1,
+					value:[{
 						handlename:$('#handlename').val(),
 						message:$('#message_text').val(),
 						time:RollCake.timeStr()
-					}
+					}]
 				}
 				con.sendCommand(cmd);
 				$('#message_text').val("");
+				return false;
 			}
 		})
 		
