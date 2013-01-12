@@ -38,8 +38,8 @@ var RollCake = {};//name space
 			});
 		}
 
-        con.connectToServer = function(server_name, port, initial_context_name, onopen, onclose, onmessage, onerror){
-            that.websock = new WebSocket('ws://'+server_name+':'+port+'/rcp');
+		con.connectToURL = function(url, initial_context_name, onopen, onclose, onmessage, onerror){
+            that.websock = new WebSocket(url);
             that.websock.onmessage = function(event){
                 var message = JSON.parse(event.data);
 				if (message.command == 'sendValue'){
@@ -64,6 +64,16 @@ var RollCake = {};//name space
                 onerror(event);
             };
 
+        };
+
+
+        con.connectToServer = function(server_name, port, initial_context_name, onopen, onclose, onmessage, onerror){
+			con.connectToURL('ws://'+server_name+':'+port+'/rcp',
+					initial_context_name,
+					onopen,
+					onclose,
+					onmessage,
+					onerror);
         };
 	   	
 		con.logoutContext = function(){
