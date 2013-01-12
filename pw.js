@@ -131,6 +131,14 @@
 			$('#result').html("");
 		});
 
+		$('#css_main').click(function(){
+			$('#css').attr("href","main.css");
+		});
+
+		$('#css_sub').click(function(){
+			$('#css').attr("href","sub.css");
+		});
+
 		$(window).bind("beforeunload", function(){
 			con.close();	
 		});

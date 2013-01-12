@@ -97,6 +97,12 @@
 		$(window).bind("beforeunload", function(){
 			con.close();	
 		});
+
+		$('#password').keyup(function(e){
+			if (e.keyCode === 13){
+				$('#createUser_button').click();
+			}
+		})
         
     });
 
