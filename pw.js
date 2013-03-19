@@ -10,18 +10,34 @@
 			$('#thread_list').html("");
 		}
 
+		var makeThreadStr = function(cmd){
+			var safeName=RollCake.htmlEscape(cmd.name);
+
+			var threadStr = '';
+			threadStr += '<a class="thread" id='
+			threadStr += safeName
+			threadStr += '> '
+
+			threadStr += safeName
+			if (cmd.connectionCount != 0)
+				threadStr += "("+cmd.connectionCount+")";
+			threadStr += cmd.timestamp;
+			threadStr += ' </a>';
+			return threadStr
+		}
 		var onReceive = function(raw_cmd_str, cmd){
 			if(cmd.command === 'addContext'){
 				var safeName=RollCake.htmlEscape(cmd.name);
-				$('#thread_list').append(
-					'<a class="thread" id='
-						+safeName
-						+'> '
-						+safeName
-						+' </a>');
+				var threadStr = makeThreadStr(cmd);
+				$('#thread_list').append(threadStr);
 				$('.thread#'+safeName).click(function(){
 					con.loginContext($(this).attr('id'));
 				});
+			}
+			if(cmd.command === 'updateContext'){
+				var safeName=RollCake.htmlEscape(cmd.name);
+				var threadStr = makeThreadStr(cmd);
+				$('.thread#'+safeName).replaceWith(threadStr);
 			}
 			else if (cmd.command === 'replaceValue'){
 				if (cmd.begin != -1)
