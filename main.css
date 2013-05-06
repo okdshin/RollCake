@@ -83,6 +83,10 @@ div.field{
 	display:inline;
 }
 
+div.thread-list{
+	display:inline;
+}
+
 div.box{
 	border-style:solid;
 	border-width:1px;

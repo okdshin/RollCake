@@ -14,15 +14,26 @@
 			var safeName=RollCake.htmlEscape(cmd.name);
 
 			var threadStr = '';
-			threadStr += '<a class="thread" id='
+			threadStr += '<div class="thread" id='
 			threadStr += safeName
 			threadStr += '> '
 
+			threadStr += '<a>'
 			threadStr += safeName
+			threadStr += '</a>';
+
 			if (cmd.connectionCount != 0)
 				threadStr += "("+cmd.connectionCount+")";
-			threadStr += cmd.timestamp;
-			threadStr += ' </a>';
+			var ts_values = cmd.timestamp.split("-");
+			var ts_date = new Date(
+					parseInt(ts_values[0]),
+					parseInt(ts_values[1]),
+					parseInt(ts_values[2]),
+					parseInt(ts_values[3]),
+					parseInt(ts_values[4]),
+					parseInt(ts_values[5]));
+
+			threadStr += '|'+ts_date.toLocaleString();
 			return threadStr
 		}
 		var onReceive = function(raw_cmd_str, cmd){
@@ -38,6 +49,9 @@
 				var safeName=RollCake.htmlEscape(cmd.name);
 				var threadStr = makeThreadStr(cmd);
 				$('.thread#'+safeName).replaceWith(threadStr);
+				$('.thread#'+safeName).click(function(){
+					con.loginContext($(this).attr('id'));
+				});
 			}
 			else if (cmd.command === 'replaceValue'){
 				if (cmd.begin != -1)
