@@ -61,8 +61,7 @@
 				if($('#sound').is(':checked')){
 					receive_sound.play();
 				}
-				$('#result').prepend(
-					'<div class="msg box">'
+				$(	'<div class="msg box">'
 					+'<div class="time">'
 					+RollCake.htmlEscape(cmd.value[0].time)
 					+'</div>'
@@ -74,8 +73,7 @@
 					+RollCake.htmlEscape(cmd.value[0].message).
 						replace(/\n/g,'<br/>')+'</div>'
 					+'</div>'
-					+'</div>');
-				$('#result').autolink();
+					+'</div>').autolink().prependTo('#result');
 			}
 			///
 			//error 

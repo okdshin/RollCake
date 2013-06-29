@@ -114,7 +114,7 @@ div.time{
 	display:inline;
 }
 div.handlename{
-	min-width = 10em;
+	min-width:10em;
 	padding-right:10px;
 	text-align:right;
 	display:inline;
