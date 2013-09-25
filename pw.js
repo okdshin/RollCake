@@ -171,20 +171,26 @@
 			con.close();	
 		});
 
+		var send_message = function(){
+			cmd = {
+				command:'replaceValue',
+				begin:-1,
+				end:-1,
+				value:[{
+					handlename:$('#handlename').val(),
+					message:$('#message_text').val(),
+					time:RollCake.timeStr()
+				}]
+			}
+			con.sendCommand(cmd);
+			$('#message_text').val("");
+		};
+		$('#post_message').click(function(e){
+			send_message();
+		})
 		$('#message_text').keydown(function(e){
 			if (e.keyCode === 13 && e.shiftKey){ // Shift + Enter
-				cmd = {
-					command:'replaceValue',
-					begin:-1,
-					end:-1,
-					value:[{
-						handlename:$('#handlename').val(),
-						message:$('#message_text').val(),
-						time:RollCake.timeStr()
-					}]
-				}
-				con.sendCommand(cmd);
-				$('#message_text').val("");
+				send_message();
 				return false;
 			}
 		})
