@@ -27,7 +27,7 @@
 			var ts_values = cmd.timestamp.split("-");
 			var ts_date = new Date(
 					parseInt(ts_values[0]),
-					parseInt(ts_values[1]),
+					parseInt(ts_values[1]-1),
 					parseInt(ts_values[2]),
 					parseInt(ts_values[3]),
 					parseInt(ts_values[4]),
