@@ -25,13 +25,13 @@
 			if (cmd.connectionCount != 0)
 				threadStr += "("+cmd.connectionCount+")";
 			var ts_values = cmd.timestamp.split("-");
-			var ts_date = new Date(
+			var ts_date = new Date(Date.UTC(
 					parseInt(ts_values[0]),
 					parseInt(ts_values[1]-1),
 					parseInt(ts_values[2]),
 					parseInt(ts_values[3]),
 					parseInt(ts_values[4]),
-					parseInt(ts_values[5]));
+					parseInt(ts_values[5])));
 
 			threadStr += '|'+ts_date.toLocaleString();
 			return threadStr
