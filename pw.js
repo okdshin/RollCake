@@ -172,13 +172,21 @@
 		});
 
 		var send_message = function(){
+			handlename= $('#handlename').val();
+			message = $('#message_text').val();
+			if (handlename == ""){
+				$('#result').prepend(
+						'<div class="box error">Require handlename.</div>');
+				return;
+			}
+
 			cmd = {
 				command:'replaceValue',
 				begin:-1,
 				end:-1,
 				value:[{
-					handlename:$('#handlename').val(),
-					message:$('#message_text').val(),
+					handlename:handlename,
+					message:message,
 					time:RollCake.timeStr()
 				}]
 			}
