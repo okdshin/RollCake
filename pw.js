@@ -1,4 +1,59 @@
 (function($){
+
+ //Uploader
+	$(document).ready(function(){ 
+		$('#upload').click(function(){
+			var ff = $('#file_form')[0][0];
+			var files = ff.files;
+			var Data = files[0];
+
+			function progressHandlingFunction(e){
+			    if(e.lengthComputable){
+					$('#upload_progress').attr(
+						{value:e.loaded,max:e.total});
+				}
+			}
+
+			$.ajax({
+				//url : 'http://localhost:54321/file_0.bin',
+				//url : 'http://192.168.2.109:54321/file_0.bin',
+				url: 'http://static.tuna-cat.com/upload',
+				type: 'POST',
+			 	xhr: function() {
+					var myXhr = $.ajaxSettings.xhr();
+					if(myXhr.upload){
+						myXhr.upload.addEventListener(
+							'progress',progressHandlingFunction, false);
+					}
+					return myXhr;
+				},
+
+				//beforeSend: beforeSendHandler,
+				success: function(data, status, jqXHR){
+					$("#file")[0].value = "";	
+					//$("progress").detach();
+					//$("#upload_result").html(data);
+					var uuid = data;
+					var str = "A file was uploaded as [" + uuid + "].";
+					$("#upload_result").html(str);
+
+					//console.log(data);
+				},
+				error: function(jqXHR, textStatus, errorThrown){
+					$("#upload_result").html("Upload failed:"+textStatus);
+			    },
+				data: Data,
+			    crossDomain: true,
+
+				cache: false,
+				contentType: false,
+				processData: false
+			});
+			$("#upload_result").html(
+					"<progress id='upload_progress'></progress>");
+		});
+	});
+//Postwave
 	$(document).ready(function(){ 
 		var receive_sound = new Audio('tm2_switch001.wav');
         var con = RollCake.rcpConnection();
@@ -36,11 +91,29 @@
 			threadStr += '|'+ts_date.toLocaleString();
 			return threadStr
 		}
+		jQuery.fn.ex_tags = function(){
+			var re1 = /\[img:([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})\]/g;
+			var re2 = /\[file:([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})\]/g;
+			return this.each( function(){
+				$(this).html( $(this).html().replace(re1,
+						'<img src = "http://static.tuna-cat.com/$1"/>'
+					).replace(re2,
+						'<a href = "http://static.tuna-cat.com/$1">$1</a>'
+					));});
+		}
 		var onReceive = function(raw_cmd_str, cmd){
 			if(cmd.command === 'addContext'){
 				var safeName=RollCake.htmlEscape(cmd.name);
 				var threadStr = makeThreadStr(cmd);
-				$('#thread_list').append(threadStr);
+				if (safeName === 'main5'){
+					threadStr = threadStr+
+						' <font color=red>[[active]]<font/>';
+					$('#thread_list').prepend(threadStr);
+				}
+				else{
+					$('#thread_list').append(threadStr);
+				}
+				//$('#thread_list').append(threadStr);
 				$('.thread#'+safeName).click(function(){
 					con.loginContext($(this).attr('id'));
 				});
@@ -73,7 +146,7 @@
 					+RollCake.htmlEscape(cmd.value[0].message).
 						replace(/\n/g,'<br/>')+'</div>'
 					+'</div>'
-					+'</div>').autolink().prependTo('#result');
+					+'</div>').autolink().ex_tags().prependTo('#result');
 			}
 			///
 			//error 

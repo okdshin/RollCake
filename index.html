@@ -41,9 +41,14 @@
 <textarea id="message_text" wrap="soft" cols=80 
 	rows=2 placeholder="message (shift+enter to send)"></textarea>
 	<img src=post.png id=post_message>
-<br />
-<br />
 
+<br />
+<form id="file_form" enctype=multipart/form-data>
+	<input id="file" name="file" type="file"/>
+	<input id="upload" type="button" value="upload"/>
+</form> <div id="upload_result"></div>
+
+<br />
 <div id="result"></div><br />
 <div id="debug_log"></div>
 <input type="text" id="new_thread_name" placeholder="new thread name">
